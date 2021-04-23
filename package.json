@@ -1,0 +1,25 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "json config",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
+    "test": "npm test"
+  },
+  "keywords": [
+    "tconf"
+  ],
+  "author": "Denis",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.0.0-beta3",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.0",
+    "mongoose": "^5.12.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
