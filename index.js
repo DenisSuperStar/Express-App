@@ -24,7 +24,9 @@ app.set('view engine', 'hbs');
 //регистрируем папку с представлениями для сайта
 app.set('views', 'views');
 
-//регистрируем роуты*/
+app.use(express.static('/assets/MusicTube.png'));
+app.use(express.static('/jquery/audio.min.js'));
+//регистрируем роуты
 app.use(routing);
 
 //определение функции start для запуска приложения
