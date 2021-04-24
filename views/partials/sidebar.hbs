@@ -2,21 +2,51 @@
     <nav class="sidebar-menu__nav">
         <div class="sidebar-menu__menu-box">
             <ul class="sidebar-menu__list">
-                <li class="sidebar-menu__item">
-                    <a href="/" class="sidebar-menu__link">Главная</a>
-                </li>
-                <li class="sidebar-menu__item">
-                    <a href="/new" class="sidebar-menu__link">Новинки</a>
-                </li>
-                <li class="sidebar-menu__item">
-                    <a href="/artist" class="sidebar-menu__link">Исполнители</a>
-                </li>
-                <li class="sidebar-menu__item">
-                    <a href="/genres" class="sidebar-menu__link">Жанры</a>
-                </li>
-                <li class="sidebar-menu__item">
-                    <a href="/add" class="sidebar-menu__link">Добавить композицию</a>
-                </li>
+                {{#if isMain}}
+                    <li class="sidebar-menu__item is-active">
+                        <a href="/" class="sidebar-menu__link">Главная</a>
+                    </li>
+                {{else}}
+                    <li class="sidebar-menu__item is-active">
+                        <a href="/" class="sidebar-menu__link">Главная</a>
+                    </li>
+                {{/if}}
+                {{#if isNew}}
+                    <li class="sidebar-menu__item is-active">
+                        <a href="/new" class="sidebar-menu__link">Новинки</a>
+                    </li>
+                {{else}}
+                    <li class="sidebar-menu__item">
+                        <a href="/new" class="sidebar-menu__link">Новинки</a>
+                    </li>
+                {{/if}}
+                {{#if isArtist}}
+                    <li class="sidebar-menu__item is-active">
+                        <a href="/artist" class="sidebar-menu__link">Исполнители</a>
+                    </li>
+                {{else}}
+                    <li class="sidebar-menu__item">
+                        <a href="/artist" class="sidebar-menu__link">Исполнители</a>
+                    </li>
+                {{/if}}
+                {{#if isStyle}}
+                    <li class="sidebar-menu__item is-active">
+                        <a href="/genres" class="sidebar-menu__link">Жанры</a>
+                    </li>
+                {{else}}
+                    <li class="sidebar-menu__item">
+                        <a href="/genres" class="sidebar-menu__link">Жанры</a>
+                    </li>
+                {{/if}}
+                {{#if isAdd}}
+                    <li class="sidebar-menu__item is-active">
+                        <a href="/add" class="sidebar-menu__link">Добавить композицию</a>
+                    </li>
+                {{else}}
+                    <li class="sidebar-menu__item">
+                        <a href="/add" class="sidebar-menu__link">Добавить композицию</a>
+                    </li>
+                {{/if}}
             </ul>
         </div>
     </nav>

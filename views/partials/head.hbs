@@ -5,4 +5,61 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
+    <style>
+        /*
+            Стили компонента navbar
+        */
+        .navbar__nav-box,
+        .navbar__list {
+            display: flex;
+            justify-content: space-between;
+        }
+    
+        .navbar {
+            background: rgba(31, 32, 65, 0.75);
+            padding: 35px 0;
+        }
+
+        .navbar__brand,
+        .navbar__nav-link {
+            text-decoration: none;
+        }
+
+        .navbar__nav-link {
+            color: #fff;
+            font-size: 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .navbar__list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar__list > .navbar__nav-item {
+            padding: 0 20px 0 0;
+        }
+
+
+        /*
+            Стили компонента sidebar
+        */
+        .sidebar-menu__list {
+            list-style: none;
+            margin: 0;
+            padding: 40px 0 0 0;
+        }
+
+        .sidebar-menu__item {
+            padding: 0 0 10px 0;
+        }
+
+        .sidebar-menu__link {
+            text-decoration: none;
+            font-size: 14px;
+            color: rgba(31, 32, 65, 0.5);
+        }
+    </style>
 </head>
