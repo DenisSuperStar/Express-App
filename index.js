@@ -10,7 +10,6 @@ const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 //подключение файла маршрутизации
 const routing = require('./routes/routing');
-const compile_sass = require('express-compile-sass');
 //инициализация порта
 const port = process.env.PORT || 3000;
 
