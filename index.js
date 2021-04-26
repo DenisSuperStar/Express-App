@@ -23,9 +23,6 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 //регистрируем папку с представлениями для сайта
 app.set('views', 'views');
-
-app.use(express.static('/assets/MusicTube.png'));
-app.use(express.static('/jquery/audio.min.js'));
 //регистрируем роуты
 app.use(routing);
 
