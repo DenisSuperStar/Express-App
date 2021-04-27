@@ -1,9 +1,13 @@
 .page {
+  margin: 0;
+  min-height: 100vh;
+  scroll-behavior: smooth;
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #b968c5), to(#87ceeb));
   background: linear-gradient(180deg, #b968c5 0, #87ceeb 100%);
+  font-family: 'Montserrat', sans-serif;
 }
 
 .page__body {
@@ -38,5 +42,9 @@
   display: -ms-flexbox;
   display: flex;
   padding: 0 0 14px 0;
+}
+
+.page__footer {
+  padding: 70px 0 0 0;
 }
 /*# sourceMappingURL=page.css.map */

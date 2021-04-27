@@ -37,12 +37,6 @@
   font-weight: bold;
 }
 
-.navbar__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 .navbar__list > .navbar__nav-item {
   padding: 0 20px 0 0;
 }
