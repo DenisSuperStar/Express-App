@@ -1,0 +1,51 @@
+.create-account {
+  background: #fff;
+  width: 380px;
+  height: 600px;
+  border-radius: 4px;
+}
+
+.create-account__title-box {
+  padding: 40px 30px 0px 30px;
+}
+
+.create-account__title {
+  font-weight: bold;
+  font-size: 24px;
+  color: #000;
+}
+
+.create-account__self-field-box {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 44px;
+}
+
+.create-account__data {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: #fff;
+  border: 1px solid rgba(31, 32, 65, 0.25);
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.create-account__data + .create-account__label {
+  color: rgba(31, 32, 65, 0.25);
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  padding: 13px 0 13px 15px;
+  pointer-events: none;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.create-account__field-name-box {
+  padding: 10px 0 20px 0;
+}
+/*# sourceMappingURL=form.css.map */
