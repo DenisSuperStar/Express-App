@@ -4,11 +4,16 @@
     margin: 0;
     min-height: 100vh;
     scroll-behavior: smooth;
+    background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
     height: max-content;
-    background: linear-gradient(180deg, #b968c5 0, #87ceeb 100%);
     font-family: 'Montserrat', sans-serif;
     &__body {
         padding: 0 140px 0 30px;
+    }
+    &__create-account-box,
+    &__exist-account-box {
+        display: flex;
+        justify-content: center;
     }
     &__grid {
         display: flex;
@@ -27,5 +32,9 @@
     }
     &__footer {
         padding: 70px 0 0 0;
+    }
+    &__upload-data-box {
+        display: flex;
+        justify-content: center;
     }
 }

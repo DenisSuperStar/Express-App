@@ -1,0 +1,77 @@
+@mixin flexible($align, $item) {
+    display: flex;
+    justify-content: $align;
+    align-items: $item;
+}
+
+.upload-file {
+    width: 345px;
+    box-shadow: 0 0 20px #000;
+    border-radius: 4px;
+    background: linear-gradient(130.16deg,#b968c5 34.4%, #87ceeb 66.11%, #800080 97.37%);
+    padding: 40px 30px 32px 30px;
+    &__title-box {
+        padding: 0 0 20px 0;
+    }
+    &__title {
+        color: #fff;
+        font-size: 24px;
+    }
+    &__main-box {
+        position: relative;
+        width: 100%;
+        @include flexible(center, center);
+    }
+    &__input-file {
+        position: absolute;
+        visibility: hidden;
+        opacity: 0;
+    }
+    &__upload-btn {
+        position: relative;
+        display: flex;
+        &-body,
+        &-text-box {
+        width: 320px;
+        }
+        &-body {
+            height: 40px;
+            @include flexible(center, center);
+            border: 2px solid #fff;
+            border-radius: 22px;
+            background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
+        }
+        &-text-box {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            color: #fff;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+    }
+    &__btn-text {
+        width: 100%;
+        @include flexible(center, center);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+    }
+    &__send-btn-box {
+        display: flex;
+        justify-content: flex-end;
+        padding: 30px 0 0 0;
+    }
+    &__send-btn {
+        width: 99px;
+        height: 44px;
+        padding: 0;
+        border: 2px solid #fff;
+        color: #fff;
+        background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
+        border-radius: 22px;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+}

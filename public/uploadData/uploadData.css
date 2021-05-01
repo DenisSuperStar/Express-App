@@ -1,0 +1,113 @@
+.upload-file {
+  width: 345px;
+  -webkit-box-shadow: 0 0 20px #000;
+          box-shadow: 0 0 20px #000;
+  border-radius: 4px;
+  background: linear-gradient(130.16deg, #b968c5 34.4%, #87ceeb 66.11%, #800080 97.37%);
+  padding: 40px 30px 32px 30px;
+}
+
+.upload-file__title-box {
+  padding: 0 0 20px 0;
+}
+
+.upload-file__title {
+  color: #fff;
+  font-size: 24px;
+}
+
+.upload-file__main-box {
+  position: relative;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.upload-file__input-file {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.upload-file__upload-btn {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.upload-file__upload-btn-body, .upload-file__upload-btn-text-box {
+  width: 320px;
+}
+
+.upload-file__upload-btn-body {
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 2px solid #fff;
+  border-radius: 22px;
+  background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
+}
+
+.upload-file__upload-btn-text-box {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.upload-file__btn-text {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.upload-file__send-btn-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding: 30px 0 0 0;
+}
+
+.upload-file__send-btn {
+  width: 99px;
+  height: 44px;
+  padding: 0;
+  border: 2px solid #fff;
+  color: #fff;
+  background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
+  border-radius: 22px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+/*# sourceMappingURL=uploadData.css.map */

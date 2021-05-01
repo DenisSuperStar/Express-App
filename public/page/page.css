@@ -2,16 +2,24 @@
   margin: 0;
   min-height: 100vh;
   scroll-behavior: smooth;
+  background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #b968c5), to(#87ceeb));
-  background: linear-gradient(180deg, #b968c5 0, #87ceeb 100%);
   font-family: 'Montserrat', sans-serif;
 }
 
 .page__body {
   padding: 0 140px 0 30px;
+}
+
+.page__create-account-box, .page__exist-account-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .page__grid {
@@ -46,5 +54,14 @@
 
 .page__footer {
   padding: 70px 0 0 0;
+}
+
+.page__upload-data-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 /*# sourceMappingURL=page.css.map */

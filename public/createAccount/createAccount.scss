@@ -1,0 +1,168 @@
+@mixin flexible($align, $item) {
+    display: flex;
+    justify-content: $align;
+    align-items: $item;
+}
+
+.create-account {
+    width: 345px;
+    box-shadow: 0 0 20px #000;
+    border-radius: 4px;
+    background: linear-gradient(130.16deg, #b968c5 34.4%, #87ceeb 66.11%, #800080 97.37%);
+    padding: 40px 30px 30px 30px;
+    &__title {
+        display: block;
+        font-size: 24px;
+        color: #fff;
+        padding: 0 0 20px 0;
+    }
+    &__person-data > &__input-box:last-child,
+    &__private-box > &__input-box:last-child {
+        padding: 0;
+    }
+    &__input-box {
+        padding: 0 0 20px 0;
+    }
+    &__input-label-box {
+        position: relative;
+        display: block;
+    }
+    &__input {
+        width: 100%;
+        height: 44px;
+        border: none;
+        background: #fff;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        &:focus {
+            outline: none;
+        }
+    }
+    &__input + &__label {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        color: #800080;
+        transform: translateY(0);
+        padding: 0 0 0 15px;
+        pointer-events: none;
+        transition: 0.25s;
+    }
+    &__input:focus + &__label {
+        position: absolute;
+        transform: translateY(-25px);
+        font-size: 12px;
+        padding: 13px 0 0 15px;
+        cursor: pointer;
+    }
+    &__choise-sex {
+        padding: 10.44px 0 0 0;
+    }
+    &__choise-sex,
+    &__radio-box {
+        display: flex;
+    }
+    &__radio-box {
+        display: flex;
+        align-items: center;
+    }
+    &__radio {
+        position: relative;
+        display: block;
+        cursor: pointer;
+    }
+    &__encapsulation {
+        appearance: none;
+        position: absolute;
+        opacity: 0;
+    }
+    &__imitation {
+        position: relative;
+        display: block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #fff;
+        background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
+        border-radius: 10px;
+        cursor: pointer;
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            opacity: 0.1;
+            border-radius: 10px;
+            pointer-events: none;
+            margin: 3px 0 0 3px;
+        }
+    }
+    &__imitation.is-animate {
+        &::after {
+        transform: scale(0);
+        transition: 0.75s;
+        }
+    }
+    &__encapsulation:hover + &__imitation::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    &__encapsulation:hover + &__imitation.is-animate::after {
+        transform: scale(3.6);
+    }
+    &__encapsulation:checked + &__imitation::after {
+        opacity: 1;
+    }
+    &__encapsulation:checked + &__imitation.is-animate::after {
+        transform: scale(1);
+        transition: 0.75s;
+    }
+    &__radio-text {
+        color: #fff;
+        font-size: 16px;
+        padding: 0 20px 0 10px;
+    }
+    &__head {
+        display: block;
+        text-transform: uppercase;
+        font-size: 12px;
+        color: #fff;
+        padding: 24px 0 5px 0;
+    }
+    &__registr-btn-box {
+        padding: 24px 0 0 0;
+        @include flexible(center, center);
+    }
+    &__btn {
+        width: 320px;
+    }
+    &__redirect-btn {
+        width: 99px;
+    }
+    &__btn,
+    &__redirect-btn {
+        height: 44px;
+        padding: 0;
+        border: 2px solid #fff;
+        border-radius: 22px;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
+        font-size: 12px;
+        cursor: pointer;
+    }
+    &__redirect-box {
+        @include flexible(space-between, center);
+        padding: 30px 0 0 0;
+    }
+    &__redirect-text {
+        font-size: 16px;
+        color: #fff;
+    }
+}

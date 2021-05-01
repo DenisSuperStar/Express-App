@@ -1,0 +1,122 @@
+.exist-account {
+  width: 345px;
+  padding: 40px 30px 32px 30px;
+  -webkit-box-shadow: 0 0 20px #000;
+          box-shadow: 0 0 20px #000;
+  background: linear-gradient(130.16deg, #b968c5 34.4%, #87ceeb 66.11%, #800080 97.37%);
+  border-radius: 4px;
+}
+
+.exist-account__title {
+  display: block;
+  font-size: 24px;
+  color: #fff;
+  padding: 0 0 20px 0;
+}
+
+.exist-account__input-box {
+  padding: 0 0 10px 0;
+}
+
+.exist-account__private-data > .exist-account__input-box:last-child {
+  padding: 0;
+}
+
+.exist-account__input-label-box {
+  position: relative;
+  display: block;
+}
+
+.exist-account__input {
+  width: 100%;
+  height: 44px;
+  border: none;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.exist-account__input:focus {
+  outline: none;
+}
+
+.exist-account__input + .exist-account__label {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #800080;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  padding: 0 0 0 15px;
+  pointer-events: none;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
+}
+
+.exist-account__input:focus + .exist-account__label {
+  position: absolute;
+  -webkit-transform: translateY(-25px);
+          transform: translateY(-25px);
+  font-size: 12px;
+  padding: 13px 0 0 15px;
+  cursor: pointer;
+}
+
+.exist-account__enter-btn-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px 0 30px 0;
+}
+
+.exist-account__btn {
+  width: 320px;
+}
+
+.exist-account__redirect-btn {
+  width: 99px;
+}
+
+.exist-account__btn, .exist-account__redirect-btn {
+  height: 44px;
+  border-radius: 22px;
+  border: 2px solid #fff;
+  color: #fff;
+  background: linear-gradient(130.16deg, #b968c5 66.11%, #fff 97.37%);
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.exist-account__redirect-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.exist-account__redirect-text {
+  display: block;
+  font-size: 14px;
+  color: #fff;
+}
+/*# sourceMappingURL=existAccount.css.map */
