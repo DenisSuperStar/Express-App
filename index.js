@@ -39,7 +39,7 @@ app.use(express.static(path.resolve() + "/public"));
 app.use(routing);
 
 //определение функции start для запуска приложения
-const start = async () => {
+/*const start = async () => {
     try {
         //параметры конфига
         const user_name = 'Denis';
@@ -61,4 +61,7 @@ const start = async () => {
     }
 }
 
-start();
+start();*/
+app.listen(port, () => {
+    console.log('Server has been started...');
+});
