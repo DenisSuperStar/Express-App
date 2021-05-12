@@ -17,6 +17,12 @@ module.exports = class MusicFile extends File {
     }
 
     saveFile() {
+        //выводим некоторые параметры для проверки
+        console.log('Путь к файлу: ' + this.srcPath);
+        console.log('Название трека: ' + this.trackName);
+        console.log('Имя исполнителя: ' + this.singerName);
+        console.log('Название песни: ' + this.songName);
+        console.log(musicFiles);
         musicFiles.push(this);
     }
     
