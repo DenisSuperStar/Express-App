@@ -4,11 +4,6 @@ const express = require('express');
 const app = express();
 //подключаем модуль для работы с путями директорий
 const path = require('path');
-//подключаем маршрутизатор из express модуля
-const {Router} = require('express');
-//вызываем функцию-маршрутизатор
-const mainRouter = Router();
-const genreRouter = Router();
 //подключение модуля handlebars
 const exphbs = require('express-handlebars');
 //подключение компилятора sass
@@ -52,35 +47,29 @@ app.use(compileSass({
 //регистрируем статические файлы стилей
 app.use(express.static(path.resolve() + '/public'));
 
-//описание маршрутов общих адресов
-mainRouter.get('/', navigController.index);
-mainRouter.get('/new', navigController.new);
-mainRouter.get('/artist', navigController.artist);
-mainRouter.get('/genres', navigController.genre);
-mainRouter.get('/add', navigController.add);
-mainRouter.post('/add', upload.single('file'), navigController.upload);
+//описание маршрутов для путей, начинающихся с /
+app.get('/', navigController.index);
+app.get('/new', navigController.new);
+app.get('/artist', navigController.artist);
+app.get('/genres', navigController.genre);
+app.get('/add', navigController.add);
+app.post('/add', upload.single('file'), navigController.upload);
 
-//сопоставляем маршрут с конечной точкой
-app.use('/', mainRouter);
+//описание маршрутов для путей, начинающихся с /genres
+app.get('/genres/pop', genreController.pop);
+app.get('/genres/rock', genreController.rock);
+app.get('/genres/rap', genreController.rap);
+app.get('/genres/electronics', genreController.electronics);
+app.get('/genres/chanson', genreController.chanson);
+app.get('/genres/metal', genreController.metal);
+app.get('/genres/classic', genreController.classic);
+app.get('/genres/rnb', genreController.rnb);
+app.get('/genres/jazz', genreController.jazz);
+app.get('/genres/country', genreController.country);
+app.get('/genres/folk', genreController.folk);
+app.get('/genres/instrumental', genreController.instrumental);
 
-//описание маршрутов множества /genre
-genreRouter.use('/pop', genreController.pop);
-genreRouter.use('/rock', genreController.rock);
-genreRouter.use('/rap', genreController.rap);
-genreRouter.use('/electronics', genreController.electronics);
-genreRouter.use('/chanson', genreController.chanson);
-genreRouter.use('/metal', genreController.metal);
-genreRouter.use('/classic', genreController.classic);
-genreRouter.use('/rnb', genreController.rnb);
-genreRouter.use('/jazz', genreController.jazz);
-genreRouter.use('/country', genreController.country);
-genreRouter.use('/folk', genreController.folk);
-genreRouter.use('/instrumental', genreController.instrumental);
-
-//сопоставляем маршрут с конечной точкой для /genres
-app.use('/genres', genreRouter);
-
-//обработка ошибки 404 в маршруте
+//обработка ошибки 404
 app.use((req, res, next) => {
     res.status(404).send('Страница не найдена');
 });
