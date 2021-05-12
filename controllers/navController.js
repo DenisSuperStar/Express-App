@@ -32,7 +32,8 @@ module.exports.genre = (req, res) => {
 module.exports.add = (req, res) => {
     res.render('add', {
         title: 'Добавить композицию в плейлист.',
-        isAdd: true
+        isAdd: true,
+        musicFiles: MusicFile.getAll()
     });
 }
 
