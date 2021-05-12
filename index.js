@@ -7,8 +7,8 @@ const path = require('path');
 //подключаем маршрутизатор из express модуля
 const {Router} = require('express');
 //вызываем функцию-маршрутизатор
-const commonRouter = Router();
-const userRouter = Router();
+const mainRouter = Router();
+const genreRouter = Router();
 //подключение модуля handlebars
 const exphbs = require('express-handlebars');
 //подключение компилятора sass
@@ -21,11 +21,11 @@ const upload = multer({dest: 'uploads/'});
 const port = process.env.PORT || 3000;
 //подключение драйвера mongoose
 const mongoose = require('mongoose');
-//подключение файла маршрутизации
-const routing = require('./routes/routing');
+//подключение контроллеров
+const navigController = require('./controllers/navController.js');
+const genreController = require('./controllers/genreController.js');
 
-
-//инициализация движка представлений hbs
+//инициализация движка представлений
 const hbs = exphbs.create({
     defaultLayout: 'main',
     extname: 'hbs'
@@ -33,47 +33,59 @@ const hbs = exphbs.create({
 
 //регистрация движка handlebars по ключу hbs
 app.engine('hbs', hbs.engine);
-//указываем, что по умолчанию будем использовать handlebars
+
+//регистрация движка как основного по умолчанию
 app.set('view engine', 'hbs');
-//регистрируем папку с представлениями для сайта
+
+//регистрируем папку с представлениями для express приложения
 app.set('views', 'views');
-//настройка комплитора sass
+
+//настройка компилятора sass
 app.use(compileSass({
-    root: path.resolve(),   //путь к директории приложения
+    root: path.resolve(), //путь к директории приложения
     sourceMap: true,
-    sourceComments: true,   //включает комментарии в выходной css
-    watchFiles: true,       //обновление файлов при каждом изменении
-    logToConsole: true      //если true, то будет логировать console.error при ошибках
+    sourceComments: true, //включает комментарий в выходной css
+    watchFiles: true,     //обновление файлов при каждом изменении
+    logToConsole: true    //если true, то будет логировать console.error при ошибках
 }));
+
 //регистрируем статические файлы стилей
-app.use(express.static(path.resolve() + "/public"));
-//регистрируем роуты
-app.use(routing);
+app.use(express.static(path.resolve() + '/public'));
 
-//определение функции start для запуска приложения
-/*const start = async () => {
-    try {
-        //параметры конфига
-        const user_name = 'Denis';
-        const password = 'ItProger1994';
-        const database_name = 'app_database';
-        // подключение бд
-        await mongoose.connect(`mongodb+srv://${user_name}:${password}@cluster0.teho8.mongodb.net/${database_name}`, {
-            useNewUrlParser: true,
-            useFindAndModify: false,
-            useUnifiedTopology: true
-        })
-        //запуск сервера
-        app.listen(port, () => {
-            console.log('Server has been started...');
-        });
-    } catch(err) {
-        //вывод ошибки
-        console.log(err);
-    }
-}
+//описание маршрутов общих адресов
+mainRouter.get('/', navigController.index);
+mainRouter.get('/new', navigController.new);
+mainRouter.get('/artist', navigController.artist);
+mainRouter.get('/genres', navigController.genre);
+mainRouter.get('/add', navigController.add);
+mainRouter.post('/add', upload.single('file'), navigController.upload);
 
-start();*/
+//сопоставляем маршрут с конечной точкой
+app.use('/', mainRouter);
+
+//описание маршрутов множества /genre
+genreRouter.use('/pop', genreController.pop);
+genreRouter.use('/rock', genreController.rock);
+genreRouter.use('/rap', genreController.rap);
+genreRouter.use('/electronics', genreController.electronics);
+genreRouter.use('/chanson', genreController.chanson);
+genreRouter.use('/metal', genreController.metal);
+genreRouter.use('/classic', genreController.classic);
+genreRouter.use('/rnb', genreController.rnb);
+genreRouter.use('/jazz', genreController.jazz);
+genreRouter.use('/country', genreController.country);
+genreRouter.use('/folk', genreController.folk);
+genreRouter.use('/instrumental', genreController.instrumental);
+
+//сопоставляем маршрут с конечной точкой для /genres
+app.use('/genres', genreRouter);
+
+//обработка ошибки 404 в маршруте
+app.use((req, res, next) => {
+    res.status(404).send('Страница не найдена');
+});
+
+//прослушивание порта и запуск сервера
 app.listen(port, () => {
-    console.log('Server has been started...');
+    console.log('Сервер был запущен...');
 });
