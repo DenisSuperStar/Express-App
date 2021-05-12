@@ -1,5 +1,4 @@
 const PropertyFileError = require('../models/error.js');
-const ServerError = require('../models/error.js');
 const MusicFile = require('../models/musicFile.js');
 
 module.exports.index = (req, res) => {
@@ -40,38 +39,81 @@ module.exports.add = (req, res) => {
 module.exports.upload = (req, res, next) => {
     const fileData = req.file;
 
-    if (!fileData.originalnam) {
-        res.send('<span class="upload__warning">Наименование файла не должно быть пустым.</span>');
+    if (!fileData.originalname) {
+        res.status(500).send(`
+            <span class="upload-warning">
+                Вы пытаетесь загрузить файл без имени.
+            </span>
+        `);
 
-        //Выброс ошибки 
+        const propertyFileError = new PropertyFileError('Передан файл с пустым именем.');
+        propertyFileError.reqStatusCode();
+        propertyFileError.viewStackCall();
+
+        throw propertyFileError;
     } else if (!fileData.mimetype) {
-        res.send('<span class="upload__danger">Формат файла должен быть задан.</span>');
+        res.status(500).send(`
+            <span class="upload-danger">
+                Вы пытаетесь загрузить файл без расширения.
+            </span>
+        `);
 
-        //Выброс ошибки
-    } else if (fileData.mimetype.indexOf('audio') === -1) {
-        res.send('<span class="upload__danger">Расширение файла не соответствует аудиоформату.</span>');
+        const propertyFileError = new PropertyFileError('Передан файл с пустым расширением.');
+        propertyFileError.reqStatusCode();
+        propertyFileError.viewStackCall();
 
-        //Выброс ошибки
+        throw propertyFileError;
+    } else if (fileData.mimetype.indexOf('audio') === 1) {
+        res.status(500).send(`
+            <span class="upload-danger">
+                Вы пытаетесь загрузить файл не аудио типа.
+            </span>
+        `);
+
+        const propertyFileError = new PropertyFileError('Расширение файла не соответсвует аудиоформату.');
+        propertyFileError.reqStatusCode();
+        propertyFileError.viewStackCall();
+
+        throw propertyFileError;
     } else if (!fileData.size) {
-        res.send('<span class="upload__danger">Размер файла не может быть = 0.</span>');
+        res.status(500).send(`
+            <span class="upload-danger">
+                Вы пытаетесь загрузить пустой файл.
+            </span>
+        `);
 
-        //Выброс ошибки
+        const propertyFileError = new PropertyFileError('Размер файла не может быть = 0.');
+        propertyFileError.reqStatusCode();
+        propertyFileError.viewStackCall();
+
+        throw propertyFileError;
     } else if (fileData.size > 10 * 8 * 1024 * 1024) {
-        res.send('<span class="upload__danger">Файл не был загружен. Он слишком большой.</span>');
+        res.status(500).send(`
+            <span class="upload-danger">
+                Превышен допустимый размер файла.
+            </span>
+        `);
 
-        //Выброс ошибки
-    } else if (fileData) {
+        const propertyFileError = new PropertyFileError('Файл не был загружен. Он слишком большой.');
+        propertyFileError.reqStatusCode();
+        propertyFileError.viewStackCall();
+
+        throw propertyFileError;
+    } else {
         const fileFolder = fileData.destination;
         const fileName = fileData.filename;
         const originName = fileData.originalname;
 
-        //инициализация конструктора класса
-        //сохранение в бд
-        res.send('<span class="upload__success">Файл загружен</span>');
-    } else {
-        res.send('Упс! Что-то пошло не так...');
+        //выводим некоторые параметры для проверки
+        console.log('Передаем директорию файла: ' + this.fileFolder);
+        console.log('Передаем название файла: ' + this.fileName);
+        console.log('Передаем оригинальное название файла: ' + this.originName);
 
-        //генерация серверной ошибки
-        //выброс ошибки
+        const musicFile = new MusicFile(fileFolder, fileName, originName);
+        musicFile.saveFile();
+
+        res.status(200).send(`
+            <span class="upload-success">Файл загружен.</span>
+        `);
     }
 }
