@@ -1,19 +1,31 @@
 //подключение express
 const express = require('express');
-//подключение компилятора sass
-const compile_sass = require('express-compile-sass');
-//получаем текущую директорию приложения
+//вызов функции express для создания приложения
+const app = express();
+//подключаем модуль для работы с путями директорий
 const path = require('path');
-//подключение драйвера mongoose
-const mongoose = require('mongoose');
-//подключение движка handlebars
+//подключаем маршрутизатор из express модуля
+const {Router} = require('express');
+//вызываем функцию-маршрутизатор
+const commonRouter = Router();
+const userRouter = Router();
+//подключение модуля handlebars
 const exphbs = require('express-handlebars');
-//подключение файла маршрутизации
-const routing = require('./routes/routing');
+//подключение компилятора sass
+const compileSass = require('express-compile-sass');
+//подключение модуля работы с файлами
+const multer = require('multer');
+//вызываем функцию multer и указываем директорию хранения загружаемых файлов
+const upload = multer({dest: 'uploads/'});
 //инициализация порта
 const port = process.env.PORT || 3000;
+//подключение драйвера mongoose
+const mongoose = require('mongoose');
+//подключение файла маршрутизации
+const routing = require('./routes/routing');
 
-const app = express();
+
+//инициализация движка представлений hbs
 const hbs = exphbs.create({
     defaultLayout: 'main',
     extname: 'hbs'
@@ -26,7 +38,7 @@ app.set('view engine', 'hbs');
 //регистрируем папку с представлениями для сайта
 app.set('views', 'views');
 //настройка комплитора sass
-app.use(compile_sass({
+app.use(compileSass({
     root: path.resolve(),   //путь к директории приложения
     sourceMap: true,
     sourceComments: true,   //включает комментарии в выходной css
