@@ -14,5 +14,31 @@
         <div class="page__footer">
             {{> footer}}
         </div>
+        <!-- 
+            скрипт показа количества фалов, загружаем один файл, поэтому всегда показывает 1
+            перенести в директорию public
+         -->
+        <script>
+            const fields = Array.from(document.querySelectorAll('.is-input-file'));
+            console.log(fields);
+            fields.forEach((input) => {
+                const label = input.nextElementSibling;
+                const downBtnBox = document.querySelector('.is-bottom-btn-box');
+                let labelVal = downBtnBox.querySelector('.is-selected').innerText;
+
+                input.addEventListener('change', function() {
+                    let countFiles = '';
+                    console.log(this.files);
+                    if (this.files) countFiles = 1;
+                    
+                    if (countFiles) {
+                        labelVal = 'Выбрано файлов: ' + countFiles;
+                        downBtnBox.querySelector('.is-selected').innerText = labelVal;
+                    } else {
+                        downBtnBox.querySelector('.is-selected').innerText = 'Файл не выбран';
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

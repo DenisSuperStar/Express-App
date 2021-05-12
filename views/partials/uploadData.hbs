@@ -1,24 +1,25 @@
 <form class="upload-file">
     <div class="upload-file__content">
-    <div class="upload-file__title-box">
-        <span class="upload-file__title">Загрузить файл</span>
-    </div>
-    <div class="upload-file__upload-data">
-        <div class="upload-file__main-box">
-        <input type="file" class="upload-file__input-file" name="file" id="input-file">
-        <label for="input-file" class="upload-file__upload-btn">
-            <span class="upload-file__upload-btn-body"></span>
-            <div class="upload-file__upload-btn-text-box">
-            <span class="upload-file__btn-text">Выберите файл</span>
-            </div>
-        </label>
+        <div class="upload-file__title-box">
+            <span class="upload-file__title">Загрузить файл</span>
         </div>
-    </div>
-    <div class="upload-file__send-btn-box">
-        <button type="submit" class="upload-file__send-btn">
-        <span class="upload-file__send-btn-text">Отправить</span>
-        <span class="upload-file__send-btn-icon"></span>
-        </button>
-    </div>
+        <div class="upload-file__upload-data">
+            <div class="upload-file__main-box">
+                <input type="file" class="upload-file__input-file is-input-file" name="file" id="input-file">
+                <label for="input-file" class="upload-file__upload-btn">
+                    <span class="upload-file__upload-btn-body"></span>
+                    <div class="upload-file__upload-btn-text-box">
+                        <span class="upload-file__btn-text">Выберите файл</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="upload-file__send-btn-box is-bottom-btn-box" style="justify-content: space-between;">
+            <span class="upload-file__selected-text is-selected" style="display: flex; align-items: center; color: #fff; font-size: 12px; text-transform: uppercase;">Файл не выбран</span>
+            <button type="submit" class="upload-file__send-btn">
+                <span class="upload-file__send-btn-text">Отправить</span>
+                <span class="upload-file__send-btn-icon"></span>
+            </button>
+        </div>
     </div>
 </form>
