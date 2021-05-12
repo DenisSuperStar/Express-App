@@ -5,17 +5,18 @@ class ValidationError extends Error {
     }
 }
 
-module.exports = class PropertyFileError extends ValidationError {}
-
-module.exports = class ServerError extends Error {
-    constructor(message) {
+module.exports = class PropertyFileError extends ValidationError {
+    constructor(message, statusCode = 500) {
         super(message);
-        this.ServerErrorName = this.constructor.name;
-        this.statusCode = 500;
+        this.errorName = this.constructor.name;
+        this.statusCode = statusCode;
     }
 
     reqStatusCode() {
-        console.log(this.statusCode);
-        return this.statusCode;
+        console.log('type request: POST' + ', ' + 'status code: ' + this.statusCode);
+    }
+
+    viewStackCall() {
+        console.log('line width the error: ' + this.stack);
     }
 }
