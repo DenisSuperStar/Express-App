@@ -37,84 +37,57 @@ module.exports.add = (req, res) => {
     });
 }
 
+
 module.exports.upload = (req, res, next) => {
     const fileData = req.file;
 
     if (!fileData.originalname) {
-        res.status(500).send(`
-            <span class="upload-warning">
-                Вы пытаетесь загрузить файл без имени.
-            </span>
-        `);
+        res.send('Вы пытаетесь загрузить файл без имени.');     //Status Code = 500 if use res.sendStatus(500)
 
-        const propertyFileError = new PropertyFileError('Передан файл с пустым именем.');
+        const propertyFileError = new PropertyFileError('Значение имени файла не определено...');
         propertyFileError.reqStatusCode();
         propertyFileError.viewStackCall();
 
         throw propertyFileError;
     } else if (!fileData.mimetype) {
-        res.status(500).send(`
-            <span class="upload-danger">
-                Вы пытаетесь загрузить файл без расширения.
-            </span>
-        `);
+        res.send('Вы пытаетесь загрузить файл без расширения.'); //Status Code = 500
 
-        const propertyFileError = new PropertyFileError('Передан файл с пустым расширением.');
+        const propertyFileError = new PropertyFileError('Файл не имеет расширения, либо оно удалено...');
         propertyFileError.reqStatusCode();
         propertyFileError.viewStackCall();
 
         throw propertyFileError;
-    } else if (fileData.mimetype.indexOf('audio') === 1) {
-        res.status(500).send(`
-            <span class="upload-danger">
-                Вы пытаетесь загрузить файл не аудио типа.
-            </span>
-        `);
+    } else if (fileData.mimetype.indexOf('audio') === -1) {
+        res.send('Вы пытаетесь загрузить файл не аудио типа.');  //Status Code = 500
 
-        const propertyFileError = new PropertyFileError('Расширение файла не соответсвует аудиоформату.');
+        const propertyFileError = new PropertyFileError('Файл имеет расширение другого типа...');
         propertyFileError.reqStatusCode();
         propertyFileError.viewStackCall();
 
         throw propertyFileError;
     } else if (!fileData.size) {
-        res.status(500).send(`
-            <span class="upload-danger">
-                Вы пытаетесь загрузить пустой файл.
-            </span>
-        `);
+        res.send('Вы пытаетесь загрузить пустой файл.');        //Status Code = 500
 
-        const propertyFileError = new PropertyFileError('Размер файла не может быть = 0.');
+        const propertyFileError = new PropertyFileError('По каким-то причинам размер файла 0, либо он изначаально был пуст...');
         propertyFileError.reqStatusCode();
         propertyFileError.viewStackCall();
 
         throw propertyFileError;
     } else if (fileData.size > 10 * 8 * 1024 * 1024) {
-        res.status(500).send(`
-            <span class="upload-danger">
-                Превышен допустимый размер файла.
-            </span>
-        `);
-
-        const propertyFileError = new PropertyFileError('Файл не был загружен. Он слишком большой.');
-        propertyFileError.reqStatusCode();
-        propertyFileError.viewStackCall();
-
-        throw propertyFileError;
+        res.send('Файл не был загружен. Он слишком большой.');  //Status Code = 500
     } else {
         const fileFolder = fileData.destination;
         const fileName = fileData.filename;
         const originName = fileData.originalname;
 
-        //выводим некоторые параметры для проверки
-        console.log('Передаем директорию файла: ' + this.fileFolder);
-        console.log('Передаем название файла: ' + this.fileName);
-        console.log('Передаем оригинальное название файла: ' + this.originName);
-
         const musicFile = new MusicFile(fileFolder, fileName, originName);
         musicFile.saveFile();
 
-        res.status(200).send(`
-            <span class="upload-success">Файл загружен.</span>
-        `);
+        res.send('Файл загружен.'); //Status Code = 201, Created if use res.sendStatus(201)
+
+        const propertyFileError = new PropertyFileError('Загружен новый музыкальный файл.', 201);
+        propertyFileError.reqStatusCode();
     }
+
+    res.redirect('/'); ///???
 }
