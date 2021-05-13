@@ -13,7 +13,7 @@ module.exports = class PropertyFileError extends ValidationError {
     }
 
     reqStatusCode() {
-        console.log('type request: POST' + ', ' + 'status code: ' + this.statusCode);
+        console.log(this.message + ' ' + 'Type request: POST' + ', ' + 'status code: ' + this.statusCode);
     }
 
     viewStackCall() {
