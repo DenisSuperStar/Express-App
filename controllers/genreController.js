@@ -4,7 +4,6 @@ module.exports.pop = (req, res) => {
     });
 }
 
-
 module.exports.rock = (req, res) => {
     res.render('rock', {
         title: 'Слушайте и качайте музыкальные композиции популярных рок-исполнителей.'
