@@ -52,8 +52,8 @@ app.get('/', navigController.index);
 app.get('/new', navigController.new);
 app.get('/artist', navigController.artist);
 app.get('/genres', navigController.genre);
-app.get('/add', navigController.add);
-app.post('/add', upload.single('file'), navigController.upload);
+app.get('/upload', navigController.add);
+app.post('/upload', upload.single('fileData'), navigController.upload);
 
 //описание маршрутов для путей, начинающихся с /genres
 app.get('/genres/pop', genreController.pop);
@@ -71,7 +71,7 @@ app.get('/genres/instrumental', genreController.instrumental);
 
 //обработка ошибки 404
 app.use((req, res, next) => {
-    res.status(404).send('Страница не найдена');
+    res.status(404).send('Страница не найдена.');
 });
 
 //прослушивание порта и запуск сервера
