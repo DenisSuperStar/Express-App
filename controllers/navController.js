@@ -38,7 +38,7 @@ module.exports.add = (req, res) => {
 }
 
 
-module.exports.upload = (req, res, next) => {
+module.exports.upload = (req, res, next) => { // передать в next ошибку
     const fileData = req.file;
 
     if (!fileData.originalname) {
@@ -90,4 +90,22 @@ module.exports.upload = (req, res, next) => {
     }
 
     res.redirect('/'); ///???
+}
+
+module.exports.create = (req, res) => {
+    res.render('createAccount', {
+        title: 'Регистрация на MusicSearch.'
+    });
+}
+
+module.exports.add = (req, res, next) => { //передать в next ошибку
+    if (!req.body) return res.sendStatus(400);
+    console.log(req.body);
+    /*res.send(`${res.body.userFirstName}, ${res.body.userLastName}, ${res.body.userAge}, ${res.body.userGender}, ${res.body.email}`);*/
+}
+
+module.exports.exist = (req, res) => {
+    res.render('existAccount', {
+        title: 'Вход в аккаунт на MusicSearch.'
+    });
 }
