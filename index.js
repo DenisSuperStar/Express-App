@@ -12,10 +12,10 @@ const compileSass = require('express-compile-sass');
 const multer = require('multer');
 //вызываем функцию multer и указываем директорию хранения загружаемых файлов
 const upload = multer({dest: 'uploads/'});
+const bodyParser = require('body-parser');
+const urlEncodedParser = bodyParser.urlencoded({extended: false});
 //инициализация порта
 const port = process.env.PORT || 3000;
-//подключение драйвера mongoose
-const mongoose = require('mongoose');
 //подключение контроллеров
 const navigController = require('./controllers/navController.js');
 const genreController = require('./controllers/genreController.js');
@@ -54,6 +54,9 @@ app.get('/artist', navigController.artist);
 app.get('/genres', navigController.genre);
 app.get('/upload', navigController.add);
 app.post('/upload', upload.single('fileData'), navigController.upload);
+app.get('/create', navigController.create);
+app.post('/create', navigController.add);
+app.get('/account', navigController.exist);
 
 //описание маршрутов для путей, начинающихся с /genres
 app.get('/genres/pop', genreController.pop);
@@ -70,7 +73,7 @@ app.get('/genres/folk', genreController.folk);
 app.get('/genres/instrumental', genreController.instrumental);
 
 //обработка ошибки 404
-app.use((req, res, next) => {
+app.use((req, res, next) => { //передать в next ошибку
     res.status(404).send('Страница не найдена.');
 });
 
