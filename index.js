@@ -1,3 +1,5 @@
+//подключение модуля обработки кодов состояния
+const createError = require('http-errors');
 //подключение express
 const express = require('express');
 //вызов функции express для создания приложения
@@ -73,8 +75,10 @@ app.get('/genres/folk', genreController.folk);
 app.get('/genres/instrumental', genreController.instrumental);
 
 //обработка ошибки 404
-app.use((req, res, next) => { //передать в next ошибку
-    res.status(404).send('Страница не найдена.');
+app.use((req, res, next) => {
+    res.send('Страница не найдена.');
+
+    next(createError(404, 'Запрашиваемая страница не найдена.'));
 });
 
 //прослушивание порта и запуск сервера
