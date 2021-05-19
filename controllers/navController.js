@@ -1,5 +1,7 @@
-const PropertyFileError = require('../models/error.js');
+const createError = require('http-errors');
+const bcrypt = require('bcrypt');
 const MusicFile = require('../models/musicFile.js');
+const User = require('../models/user.js');
 
 module.exports.index = (req, res) => {
     res.render('index', {
@@ -40,41 +42,31 @@ module.exports.add = (req, res) => {
 
 module.exports.upload = (req, res, next) => { // передать в next ошибку
     const fileData = req.file;
+    const maxSize = 8388608083886080;
 
     if (!fileData.originalname) {
-        res.send('Вы пытаетесь загрузить файл без имени.');     //Status Code = 500 if use res.sendStatus(500)
+        /*
+            Использовать команду sendFile, чтобы показывать статический файл клиенту с сообщением об ошибке.
+        */
+        res.send('Вы пытаетесь загрузить файл без имени...');
 
-        const propertyFileError = new PropertyFileError('Значение имени файла не определено...');
-        propertyFileError.reqStatusCode();
-        propertyFileError.viewStackCall();
-
-        throw propertyFileError;
+        return next(createError(500, 'Значение имени файла не определено...'));
     } else if (!fileData.mimetype) {
-        res.send('Вы пытаетесь загрузить файл без расширения.'); //Status Code = 500
+        res.send('Файл не может быть прочитан...');
 
-        const propertyFileError = new PropertyFileError('Файл не имеет расширения, либо оно удалено...');
-        propertyFileError.reqStatusCode();
-        propertyFileError.viewStackCall();
-
-        throw propertyFileError;
+        return next(createError(500, 'Попытка загрузить файл, который не может быть распознан...'));
     } else if (fileData.mimetype.indexOf('audio') === -1) {
-        res.send('Вы пытаетесь загрузить файл не аудио типа.');  //Status Code = 500
+        res.send('У файла отсутствует аудиоформат!');
 
-        const propertyFileError = new PropertyFileError('Файл имеет расширение другого типа...');
-        propertyFileError.reqStatusCode();
-        propertyFileError.viewStackCall();
-
-        throw propertyFileError;
+        return next(createError(500, 'У загружаемого файла неверное расширение!'));
     } else if (!fileData.size) {
-        res.send('Вы пытаетесь загрузить пустой файл.');        //Status Code = 500
+        res.send('Пустой файл не может быть загружен...');
 
-        const propertyFileError = new PropertyFileError('По каким-то причинам размер файла 0, либо он изначаально был пуст...');
-        propertyFileError.reqStatusCode();
-        propertyFileError.viewStackCall();
+        return next(createError(500, 'Размер файла 0, либо он изначально был пуст...'));
+    } else if (fileData.size > maxSize) {
+        res.send('Файл слишком большой и он не был загружен!');
 
-        throw propertyFileError;
-    } else if (fileData.size > 10 * 8 * 1024 * 1024) {
-        res.send('Файл не был загружен. Он слишком большой.');  //Status Code = 500
+        return next(createError(500, 'Файл имеет слишком большой размер!'));
     } else {
         const fileFolder = fileData.destination;
         const fileName = fileData.filename;
@@ -83,13 +75,14 @@ module.exports.upload = (req, res, next) => { // передать в next оши
         const musicFile = new MusicFile(fileFolder, fileName, originName);
         musicFile.saveFile();
 
-        res.send('Файл загружен.'); //Status Code = 201, Created if use res.sendStatus(201)
+        res.send('Файл загружен.');
 
-        const propertyFileError = new PropertyFileError('Загружен новый музыкальный файл.', 201);
-        propertyFileError.reqStatusCode();
+        return next(createError(201, 'Загружен новый аудиофайл.'));
     }
 
-    res.redirect('/'); ///???
+    /*
+        Придумать переадресацию на страницу загрузки
+    */
 }
 
 module.exports.create = (req, res) => {
@@ -98,10 +91,37 @@ module.exports.create = (req, res) => {
     });
 }
 
-module.exports.add = (req, res, next) => { //передать в next ошибку
-    if (!req.body) return res.sendStatus(400);
-    console.log(req.body);
-    /*res.send(`${res.body.userFirstName}, ${res.body.userLastName}, ${res.body.userAge}, ${res.body.userGender}, ${res.body.email}`);*/
+module.exports.add = (req, res, next) => {
+    if (!req.body) {
+        res.send('Пользователь не найден.');
+
+        return next(createError(400, 'Текущий пользователь не найден.'));
+    }
+
+    try {
+        const {personEmail, personPassword} = req.body;
+        const findExistEmail = await User.findOne({userEmail: personEmail});
+
+        if (findExistEmail) {
+            res.send('Такой пользователь уже существует.');
+
+            return next(createError(403, 'Такой пользователь уже существует.'));
+        }
+
+        const saltLength = 10;
+        const hashedPassword = bcrypt.hash(personPassword, saltLength);
+        const user = new User(personEmail, hashedPassword);
+
+        await user.save();
+        res.send('Пользователь зарегистрирован.');
+
+        return next(createError(201, 'Пользователь зарегистрирован.'));
+
+    } catch(err) {
+        res.send('Упс! Что-то пошло не так...');
+
+        return next(createError(500, 'Синтаксическая ошибка в исполняемом коде.'));
+    }
 }
 
 module.exports.exist = (req, res) => {
