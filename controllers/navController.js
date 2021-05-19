@@ -40,46 +40,33 @@ module.exports.add = (req, res) => {
 }
 
 
-module.exports.upload = (req, res, next) => { // передать в next ошибку
-    const fileData = req.file;
+module.exports.upload = (req, res, next) => {
+    const {originalname, mimetype, size, ...fileData} = req.file;
     const maxSize = 8388608083886080;
 
-    if (!fileData.originalname) {
-        /*
-            Использовать команду sendFile, чтобы показывать статический файл клиенту с сообщением об ошибке.
-        */
-        res.send('Вы пытаетесь загрузить файл без имени...');
+    if (!originalname) {
+        res.send('Имя файла не задано!');
 
         return next(createError(500, 'Значение имени файла не определено...'));
-    } else if (!fileData.mimetype) {
-        res.send('Файл не может быть прочитан...');
+    } else if ((!mimetype) || (mimetype.indexOf('audio') === -1)) {
+        res.send('Файл не может быть прочитан или имеет неверный формат!');
 
-        return next(createError(500, 'Попытка загрузить файл, который не может быть распознан...'));
-    } else if (fileData.mimetype.indexOf('audio') === -1) {
-        res.send('У файла отсутствует аудиоформат!');
+        return next(createError(500, 'Файл не может быть прочитан или распознан как имеющий другое расширение!'));
+    } else if ((!size) || (size > maxSize)) {
+        res.send('Вы пытаетесь загрузить пустой файл или файл слишком большого размера!');
 
-        return next(createError(500, 'У загружаемого файла неверное расширение!'));
-    } else if (!fileData.size) {
-        res.send('Пустой файл не может быть загружен...');
-
-        return next(createError(500, 'Размер файла 0, либо он изначально был пуст...'));
-    } else if (fileData.size > maxSize) {
-        res.send('Файл слишком большой и он не был загружен!');
-
-        return next(createError(500, 'Файл имеет слишком большой размер!'));
+        return next(createError(500, 'Попытка загрузить пустой файл или файл слишком большого размера!'));
     } else {
         const fileFolder = fileData.destination;
         const fileName = fileData.filename;
-        const originName = fileData.originalname;
 
-        const musicFile = new MusicFile(fileFolder, fileName, originName);
-        musicFile.saveFile();
+        const musicFile = new MusicFile(fileFolder, fileName, originalname);
+        musicFile.save();
 
         res.send('Файл загружен.');
 
         return next(createError(201, 'Загружен новый аудиофайл.'));
     }
-
     /*
         Придумать переадресацию на страницу загрузки
     */
