@@ -154,6 +154,8 @@ module.exports.check = async (req, res, next) => {
                 if ((!user) || (!user.validPassword(password))) {
                     return done(null, false, {message: 'Некорректный email или пароль.'});
                 }
+
+                return done(null, user);
             });
         }));
 
