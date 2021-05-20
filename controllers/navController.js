@@ -81,9 +81,6 @@ module.exports.upload = (req, res, next) => {
 
         return next(createError(201, 'Загружен новый аудиофайл.'));
     }
-    /*
-        Придумать переадресацию на страницу загрузки
-    */
 }
 
 module.exports.create = (req, res) => {
