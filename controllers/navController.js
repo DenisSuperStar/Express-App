@@ -1,7 +1,19 @@
+//подключение модуля работы с http errors
 const createError = require('http-errors');
+//подключение модуля генерации hash пароля
 const bcrypt = require('bcrypt');
+//подключение модуля passport
+const passport = require('passport');
+//подключение модуля passport-local
+const passportLocal = require('passport-local');
+//импорт интересующей стратегии
+const {Strategy} = passportLocal;
+//подключение файла модели объекта музыкального файла
 const MusicFile = require('../models/musicFile.js');
+//подключение файла модели пользователя
 const User = require('../models/user.js');
+//длина соли для хеширования пароля
+const saltLength = 10;
 
 module.exports.index = (req, res) => {
     res.render('index', {
@@ -78,7 +90,7 @@ module.exports.create = (req, res) => {
     });
 }
 
-module.exports.add = (req, res, next) => {
+module.exports.add = async (req, res, next) => {
     if (!req.body) {
         res.send('Пользователь не найден.');
 
@@ -95,7 +107,6 @@ module.exports.add = (req, res, next) => {
             return next(createError(403, 'Такой пользователь уже существует.'));
         }
 
-        const saltLength = 10;
         const hashedPassword = bcrypt.hash(personPassword, saltLength);
         const user = new User(personEmail, hashedPassword);
 
@@ -107,7 +118,7 @@ module.exports.add = (req, res, next) => {
     } catch(err) {
         res.send('Упс! Что-то пошло не так...');
 
-        return next(createError(500, 'Синтаксическая ошибка в исполняемом коде.'));
+        return next(createError(500, 'Синтаксическая ошибка в исполняемом код во время регистрации.'));
     }
 }
 
@@ -115,4 +126,33 @@ module.exports.exist = (req, res) => {
     res.render('existAccount', {
         title: 'Вход в аккаунт на MusicSearch.'
     });
+}
+
+module.exports.check = async (req, res, next) => {
+    if (!req.body) {
+        res.send('Пользователь не найден.');
+
+        return next(createError(400, 'Текущий пользователь не найден.'));
+    }
+
+    try {
+        //описываем механизм авторизации с помощью passport
+        passport.use(new LocalStrategy({
+            usernameField: 'authEmail',
+            passwordField: 'authPassword'
+        }, (username, password, done) => {
+            await User.findOne({userEmail: username}, (err, user) => {
+                if (err) return done(err);
+
+                if ((!user) || (!user.validPassword(password))) {
+                    return done(null, false, {message: 'Некорректный email или пароль.'});
+                }
+            });
+        }));
+
+    } catch(err) {
+        res.send('Упс! Что-то пошло не так...');
+
+        return next(createError(500, 'Синтаксическая ошибка в исполняемом коде во время авторизации.'));
+    }
 }
