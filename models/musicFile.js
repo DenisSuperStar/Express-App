@@ -1,4 +1,3 @@
-const musicFiles = [];
 
 class File {
     constructor(folder, fileName, originName) {
@@ -9,16 +8,17 @@ class File {
 }
 
 module.exports = class MusicFile extends File {
-    constructor(folder, fileName, originName) {
-        super(folder, fileName, originName);
-        this.srcPath = './' + this.folder + this.fileName;
-        this.trackName = this.originName.split(' - ');
-        [this.singerName, this.songName] = this.trackName;
+    constructor(fileFolder, fileName, originName) {
+        super(fileFolder, fileName, originName);
+        this.propsAll = this.originName.split(' - ');
+        this.srcPath = './' + this.fileFolder + this.fileName;
     }
 
-    saveFile() {
-        musicFiles.push(this);
+    addFileProp() {
+        this.propsAll.push(this.srcPath);
     }
-    
-    static getAll = () => musicFiles;
+
+    static getPropsAll() {
+        return this.propsAll;
+    }
 }
