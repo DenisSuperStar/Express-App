@@ -1,7 +1,9 @@
+//подключение модуля mongoose
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+//импорт функционала для определения схемы таблицы бд из модуля mongoose
+const { Schema } = require('mongoose');
 
-//определение схемы
+//определение схемы таблицы данных пользователя
 const userSchema = new Schema({
     id: {
         type: Number,
@@ -33,7 +35,7 @@ const userSchema = new Schema({
         required: true
     }
 }, {
-    versionKey: false
+    versionKey: false //также отключение версионности
 });
 
 const User = mongoose.model('User', userSchema);
