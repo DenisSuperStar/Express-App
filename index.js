@@ -6,7 +6,7 @@ const express = require('express');
 const app = express();
 //подключаем модуль для работы с путями директорий
 const path = require('path');
-//подключение модуля passport
+//подключение модуля авторизации passport
 const passport = require('passport');
 //подключение модуля handlebars
 const exphbs = require('express-handlebars');
@@ -23,7 +23,10 @@ const urlEncodedParser = bodyParser.urlencoded({extended: false});
 //инициализация порта
 const port = process.env.PORT || 3000;
 //подключение контроллеров
-const navigController = require('./controllers/navController.js');
+const routeController = require('./controllers/routeController.js');
+const addNewUserController = require('./controllers/addNewUserController.js');
+const autenticateController = require('./controllers/autenticateController');
+const uploadFileController = require('./controllers/uploadFileController.js');
 const genreController = require('./controllers/genreController.js');
 
 /*
@@ -35,6 +38,8 @@ const genreController = require('./controllers/genreController.js');
 app.use(passport.initialize);
 //инициализация сессии
 app.use(passport.session);
+//вызываем у контроллера авторизации функцию проверки пользовательских данных
+autenticateController.checkDataUser(passport);
 
 //инициализация движка представлений
 const hbs = exphbs.create({
@@ -64,18 +69,15 @@ app.use(compileSass({
 app.use(express.static(path.resolve() + '/public'));
 
 //описание маршрутов для путей, начинающихся с /
-app.get('/', navigController.index);
-app.get('/new', navigController.new);
-app.get('/artist', navigController.artist);
-app.get('/genres', navigController.genre);
-app.get('/upload', navigController.add);
-app.post('/upload', upload.single('fileData'), navigController.upload);
-/*
-    Добавить urlEncodedParser в get и post контроллеры
-*/
-app.get('/create', navigController.create);
-app.post('/create', navigController.add);
-app.get('/account', navigController.exist);
+app.get('/', routeController.index);
+app.get('/new', routeController.new);
+app.get('/artist', routeController.artist);
+app.get('/genres', routeController.genre);
+app.post('/upload', upload.single('fileData'), uploadFileController.uploadFile);
+
+app.get('/create', urlEncodedParser, routeController.create);
+app.post('/create', urlEncodedParser, addNewUserController.addUser);
+app.get('/account', routeController.exist);
 
 //описание маршрутов для путей, начинающихся с /genres
 app.get('/genres/pop', genreController.pop);
@@ -105,13 +107,10 @@ app.listen(port, () => {
 
 /*
     1) Добавить коннект к базе данных
-    2) Добавить middleware urlEncoded к контролерам форм
     3) Добавить страницу с url секрет и сделать переадесацию на страницу загрузки файлов формы
     4) На странице загрузки файлов формы добавить список музыкальных жанров
-    5) Добавить валидацию формы с помощью библиотеки плагина jquery validate
     6) Добавить плагин jquery для стилизации формы загрузки файлов
     7) Разобраться с валидацией на бекенде
     8) Подобрать jquery плагин для аудиоплеера для поддержки кроссбраузерности
     9) Добавить минимальную адаптивность
-    10) Выполнить разделение контроллеров, базовую навигацию отдельно, загрузку файла отдельно, регистрацию отдельно, авторизацию отдельно
 */
