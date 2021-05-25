@@ -14,41 +14,26 @@
         <div class="page__footer">
             {{> footer}}
         </div>
-        <!-- 
-            скрипт показа количества фалов, загружаем один файл, поэтому всегда показывает 1
-            перенести в директорию public
-         -->
-        <script>
-            const fields = Array.from(document.querySelectorAll('.is-input-file'));
-            console.log(fields);
-            fields.forEach((input) => {
-                const label = input.nextElementSibling;
-                const downBtnBox = document.querySelector('.is-bottom-btn-box');
-                let labelVal = downBtnBox.querySelector('.is-selected').innerText;
-
-                input.addEventListener('change', function() {
-                    let countFiles = '';
-                    if (this.files) countFiles = 1;
-                    
-                    if (countFiles) {
-                        labelVal = 'Выбрано файлов: ' + countFiles;
-                        downBtnBox.querySelector('.is-selected').innerText = labelVal;
-                    } else {
-                        downBtnBox.querySelector('.is-selected').innerText = 'Файл не выбран';
-                    }
-                });
-            });
-        </script>
         <!-- include jquery -->
         <script
             src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous">
         </script>
+        <!-- include jquery input file plugin -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery-fileinput@1.3.1/fileinput.js"></script>
+        <!-- include jquery input file init -->
+        <script src="/form/initFileInput.js"></script>
+        <!-- include jquery form styler plugin -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery-form-styler@2.0.2/dist/jquery.formstyler.min.js"></script>
+        <!-- init jquery form styler -->
+        <script src="/form/initFormStyler.js"></script>
         <!-- jquery validation cdn was taking from: https://cdnjs.com/libraries/jquery-validate -->
         <!-- include jquery validation plugin -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-        <script src="/validation/validationForm.js"></script>
-        <script src="/validation/validationAccountExist.js"></script>
+        <!-- jquery validation code of form registration -->
+        <script src="/form/validationForm.js"></script>
+        <!-- jquery validation code of form autentication -->
+        <script src="/form/validationAccountExist.js"></script>
     </body>
 </html>
