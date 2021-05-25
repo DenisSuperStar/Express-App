@@ -1,26 +1,29 @@
-<form class="upload-file" action="/upload" method="post" enctype="multipart/form-data">
-    <div class="upload-file__content">
-        <div class="upload-file__title-box">
-            <span class="upload-file__title">Загрузить файл</span>
-        </div>
-        <div class="upload-file__upload-data">
-            <div class="upload-file__main-box">
-                <input type="file" class="upload-file__input-file is-input-file" name="fileData" id="inputFile">
-                <label for="inputFile" class="upload-file__upload-btn">
-                    <span class="upload-file__upload-btn-body"></span>
-                    <div class="upload-file__upload-btn-text-box">
-                        <span class="upload-file__btn-text">Выберите файл</span>
-                    </div>
-                </label>
-            </div>
-        </div>
-        <div class="upload-file__send-btn-box is-bottom-btn-box">
-            <span class="upload-file__selected-text is-selected">Файл не выбран</span>
-            <button type="submit" class="upload-file__send-btn">
-                <span class="upload-file__send-btn-text">Отправить</span>
-                <span class="upload-file__send-btn-icon"></span>
-            </button>
-        </div>
+<!-- Улучшенная форма загрузки файлов на сервер -->
+<form class="input-file" action="/upload" method="post" enctype="multipart/form-data">
+    <span class="input-file__header">Загрузить файл...</span>
+    <div class="input-file__upload-box">
+        <label for="input-file" class="input-file__head">Выберите файл</label>
+        <span class="input-file__text is-select-file">Будет загружен файл...</span>
+    </div>
+    <input type="file" id="input-file" class="input-file__uploader is-upload" name="fileData">
+    <div class="input-file__submit-box">
+        <button type="submit" class="input-file__submit is-submit">Отправить</button>
+    </div>
+    <div class="input-file__select-box">
+        <select class="input-file__list" required>
+            <option selected class="input-file__option" value="chanson"  name="optionSelected">Шансон</option>
+            <option class="input-file__option" value="classic"  name="optionSelected">Классическая музыка</option>
+            <option class="input-file__option" value="country"  name="optionSelected">Кантри</option>
+            <option class="input-file__option" value="electron" name="optionSelected">Электроника</option>
+            <option class="input-file__option" value="folk"     name="optionSelected">Фолк</option>
+            <option class="input-file__option" value="instrum"  name="optionSelected">Инструментальная</option>
+            <option class="input-file__option" value="jazz"     name="optionSelected">Джазз</option>
+            <option class="input-file__option" value="metal"    name="optionSelected">Металл</option>
+            <option class="input-file__option" value="pop"      name="optionSelected">Поп</option>
+            <option class="input-file__option" value="rap"      name="optionSelected">Реп</option>
+            <option class="input-file__option" value="rnb"      name="optionSelected">Рнб</option>
+            <option class="input-file__option" value="rock"     name="optionSelected">Рок</option>
+        </select>
     </div>
 </form>
 
