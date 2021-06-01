@@ -1,11 +1,12 @@
-//подключение файла модели объекта музыкального файла
-const MusicFile = require('../models/musicFile.js');
+const Play = require('../models/playFile.js');
 
 //Экспорт функций для рендеринга представлений
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
     res.render('index', {
         title: 'MusicSearch.Ваши любимые исполнители.',
-        isMain: true
+        isMain: true,
+        all: await Play.find({}), // вывести все что есть...
+        header: 'Слушайте только актуальное.'
     });
 }
 
@@ -33,8 +34,7 @@ module.exports.genre = (req, res) => {
 module.exports.add = (req, res) => {
     res.render('add', {
         title: 'Добавить композицию в плейлист.',
-        isAdd: true,
-        musicFiles: MusicFile.getAll()
+        isAdd: true
     });
 }
 
