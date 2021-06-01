@@ -1,10 +1,14 @@
 //подключение модуля работы с http errors
 const createError = require('http-errors');
-//подключение файла модели объекта музыкального файла
-const MusicFile = require('../models/musicFile.js');
+//подключение модуля генерации id
+const { v4: uuidv4 } = require('uuid');
+//подключение модели, делает из originname две строки
+const ConvertFullName = require('../models/convertFileName.js');
+//подключаем модель исполняемого файла
+const Play = require('../models/playFile.js');
 
 //экспорт функции для обработки файлов
-module.exports.uploadFile = (req, res, next) => {
+module.exports.uploadFile = async (req, res, next) => {
     const {originalname, mimetype, size, ...fileData} = req.file;
     const maxSize = 8388608083886080;
 
@@ -23,12 +27,32 @@ module.exports.uploadFile = (req, res, next) => {
     } else {
         const fileFolder = fileData.destination;
         const fileName = fileData.filename;
+        const originName = originalname;
+        const pathToFile = './' + fileFolder + fileName;
+        //понять, откуда приходит переменная жанр!
 
-        const musicFile = new MusicFile(fileFolder, fileName, originalname);
-        musicFile.save();
+        const convertOriginName = new ConvertFullName(originName);
 
-        res.send('Файл загружен.');
+        //сохраняем данные файла в базу
+        try {
+            const playedFile = new Play(
+                uuidv4(),
+                convertOriginName.getSingerName(),
+                convertOriginName.getSongName(),
+                pathToFile,
+                'Рок', // вместо хардкорного значения, подставить значение из переменной.
+                parseInt(Math.random())
+            );
 
-        return next(createError(201, 'Загружен новый аудиофайл.'));
+            await playedFile.save();
+
+            res.send('Аудиофайл загружен.');
+
+            return next(201, 'Загружен новый аудиофайл.');
+        } catch(err) {
+            res.send('Упс! Что-то пошло не так...');
+
+            return next(createError(500, 'Синтаксическая ошибка в исполняемом коде во время загрузки файла.'));
+        }
     }
 }

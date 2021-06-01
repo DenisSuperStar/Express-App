@@ -1,71 +1,98 @@
-module.exports.pop = (req, res) => {
-    res.render('pop', {
-        title: 'Слушайте и качайте музыкальные композиции популярных поп-исполнителей.'
-    });
-}
+//подключаем модель исполняемого файла
+const Play = require('../models/playFile.js');
+const searchChansonSingers = () => {this.genre == 'chanson';}
+const searchClassicSingers = () => {this.genre == 'classic'}
+const searchCountrySingers = () => {this.genre == 'country';}
+const searchElectronSingers = () => {this.genre == 'electron';}
+const searchFolkSingers = () => {this.genre == 'folk';}
+const searchInstrumSingers = () => {this.genre == 'instrum';}
+const searchJazzSingers = () => {this.genre == 'jazz';}
+const searchMetalSingers = () => {this.genre == 'metal';}
+const searchPopSingers = () => {this.genre == 'pop';}
+const searchRapSingers = () => {this.genre == 'rap';}
+const searchRnbSingers = () => {this.genre == 'rnb';}
+const searchRockSingers = () => {this.genre == 'rock';}
 
-module.exports.rock = (req, res) => {
-    res.render('rock', {
-        title: 'Слушайте и качайте музыкальные композиции популярных рок-исполнителей.'
-    });
-}
-
-module.exports.rap = (req, res) => {
-    res.render('rap', {
-        title: 'Слушайте и качайте музыкальные композиции популярных реп-исполнителей.'
-    });
-}
-
-module.exports.electronics = (req, res) => {
-    res.render('electronics', {
-        title: 'Слушайте и качайте популярные музыкальные электроник композиции.'
-    });
-}
-
-module.exports.chanson = (req, res) => {
+module.exports.chanson = async (req, res) => {
     res.render('chanson', {
-        title: 'Слушайте и качайте музыкальные композиции популярных шансонье.'
+        title: 'Слушайте и качайте музыкальные композиции популярных шансонье.',
+        singles: await Play.find(searchChansonSingers) 
     });
 }
 
-module.exports.metal = (req, res) => {
-    res.render('metal', {
-        title: 'Слушайте и качайте музыкальные композиции популярных рок-металлистов.'
-    });
-}
-
-module.exports.classic = (req, res) => {
+module.exports.classic = async (req, res) => {
     res.render('classic', {
-        title: 'Слушайте и качайте музыкальные композиции популярных классиков.'
+        title: 'Слушайте и качайте музыкальные композиции популярных классиков.',
+        singles: await Play.find(searchClassicSingers)
     });
 }
 
-module.exports.rnb = (req, res) => {
-    res.render('rnb', {
-        title: 'Слушайте и качайте музыкальные композиции популярных rnb-исполнителей.'
-    });
-}
-
-module.exports.jazz = (req, res) => {
-    res.render('jazz', {
-        title: 'Слушайте и качайте музыкальные композиции популярных jazz-исполнителей.'
-    });
-}
-
-module.exports.country = (req, res) => {
+module.exports.country = async (req, res) => {
     res.render('country', {
-        title: 'Слушайте и качайте музыкальные композиции популярных исполнителей кантри.'
+        title: 'Слушайте и качайте музыкальные композиции популярных исполнителей кантри.',
+        singles: await Play.find(searchCountrySingers)
     });
 }
 
-module.exports.folk = (req, res) => {
+module.exports.electronics = async (req, res) => {
+    res.render('electronics', {
+        title: 'Слушайте и качайте популярные музыкальные электроник композиции.',
+        singles: await Play.find(searchElectronSingers)
+    });
+}
+
+module.exports.folk = async (req, res) => {
     res.render('folk', {
-        title: 'Слушайте и качайте музыкальные композиции популярных фолк-исполнителей.'
+        title: 'Слушайте и качайте музыкальные композиции популярных фолк-исполнителей.',
+        singles: await Play.find(searchFolkSingers)
     });
 }
 
-module.exports.instrumental = (req, res) => {
+module.exports.instrumental = async (req, res) => {
     res.render('instrumental', {
-        title: 'Слушайте и качайте музыкальные композиции популярных фолк-исполнителей.'
+        title: 'Слушайте и качайте музыкальные композиции популярных фолк-исполнителей.',
+        singles: await Play.find(searchInstrumSingers)
+    });
+}
+
+module.exports.jazz = async (req, res) => {
+    res.render('jazz', {
+        title: 'Слушайте и качайте музыкальные композиции популярных jazz-исполнителей.',
+        singles: await Play.find(searchJazzSingers)
+    });
+}
+
+module.exports.metal = async (req, res) => {
+    res.render('metal', {
+        title: 'Слушайте и качайте музыкальные композиции популярных рок-металлистов.',
+        singles: await Play.find(searchMetalSingers)
+    });
+}
+
+module.exports.pop = async (req, res) => {
+    res.render('pop', {
+        title: 'Слушайте и качайте музыкальные композиции популярных поп-исполнителей.',
+        singles: await Play.find(searchPopSingers)
+    });
+}
+
+module.exports.rap = async (req, res) => {
+    res.render('rap', {
+        title: 'Слушайте и качайте музыкальные композиции популярных реп-исполнителей.',
+        singles: await Play.find(searchRapSingers)
+    });
+}
+
+module.exports.rnb = async (req, res) => {
+    res.render('rnb', {
+        title: 'Слушайте и качайте музыкальные композиции популярных rnb-исполнителей.',
+        singles: await Play.find(searchRnbSingers)
+    });
+}
+
+module.exports.rock = async (req, res) => {
+    res.render('rock', {
+        title: 'Слушайте и качайте музыкальные композиции популярных рок-исполнителей.',
+        singles: await Play.find(searchRockSingers)
     });
 }

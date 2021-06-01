@@ -11,7 +11,7 @@ const saltLength = 10;
 
 
 //экспорт функции по обработке и добавлении данных пользователя
-module.exports.addUser = (req, res, next) => {
+module.exports.addUser = async (req, res, next) => {
     if (!req.body) {
         res.send('Пользователь не найден.');
 
