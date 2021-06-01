@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 //подключаем модуль для работы с путями директорий
 const path = require('path');
+const mongoose = require('mongoose'); /*!!!*/
 //подключение модуля авторизации passport
 const passport = require('passport');
 //подключение модуля handlebars
@@ -22,6 +23,9 @@ const bodyParser = require('body-parser');
 const urlEncodedParser = bodyParser.urlencoded({extended: false});
 //инициализация порта
 const port = process.env.PORT || 3000;
+const hostType = 'localhost';
+const hostDb = 27017;
+const dbName = 'appMusicDb';
 //подключение контроллеров
 const routeController = require('./controllers/routeController.js');
 const addNewUserController = require('./controllers/addNewUserController.js');
@@ -29,10 +33,21 @@ const autenticateController = require('./controllers/autenticateController');
 const uploadFileController = require('./controllers/uploadFileController.js');
 const genreController = require('./controllers/genreController.js');
 
-/*
-    Добавить скрипт mongoConnect,
-    прослушивание...
-*/
+mongoose.connect(`mongodb://${hostType}:${hostDb}/${dbName}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+}, (err) => {
+    if (err) {
+        console.log(err.message);
+        process.exit(-1);
+    }
+
+    app.port(port, () => {
+        console.log('Сервер был запущен...');
+    });
+});
 
 //инициализация библиотеки passport
 app.use(passport.initialize);
@@ -50,11 +65,11 @@ const hbs = exphbs.create({
 //регистрация движка handlebars по ключу hbs
 app.engine('hbs', hbs.engine);
 
-//регистрация движка как основного по умолчанию
+//указание самого шаблонизатора
 app.set('view engine', 'hbs');
 
-//регистрируем папку с представлениями для express приложения
-app.set('views', 'views');
+//указание пути к директории с шаблонами
+app.set('views', './views');
 
 //настройка компилятора sass
 app.use(compileSass({
@@ -102,17 +117,5 @@ app.use((req, res, next) => {
 
 //прослушивание порта и запуск сервера
 app.listen(port, () => {
-    console.log('Сервер был запущен...');
+    console.log(`Сервер прослушивает http://${host}:${port}`);
 });
-
-/*
-    1) Добавить коннект к базе данных
-    3) Добавить страницу с url секрет и сделать переадесацию на страницу загрузки файлов формы
-    5) Понять, что приходит из селект списка на сервер
-    6) Проверить стили для форм, задать стили для всплывающих ошибок
-    7) Разобраться с валидацией на бекенде
-    8) Подобрать jquery плагин для аудиоплеера для поддержки кроссбраузерности
-    9) Добавить минимальную адаптивность, сверстать мобильные меню
-    10) Создать страницу секрет, сверстать для этой страницы лоадер, сделать закрытым роутер серкрет
-    11) Сделать переадресацию со страницы секрет на страницу upload, со страницы upload на главную
-*/
