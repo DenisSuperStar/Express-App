@@ -6,7 +6,7 @@ const { Schema } = require('mongoose');
 //определение схемы таблицы свойств музыкального файла
 const fileSchema = new Schema({
    fileId: {
-       type: Number,
+       type: String,
        required: true,
        unique: true
    },
@@ -21,6 +21,15 @@ const fileSchema = new Schema({
    srcPath: {
        type: String,
        required: true
+   },
+   genre: {
+       type: String,
+       required: true
+   },
+   playerId: {
+       type: Number,
+       required: true,
+       unique: true
    }
 }, {
     versionKey: false //отключение версионности
