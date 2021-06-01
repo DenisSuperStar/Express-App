@@ -6,7 +6,7 @@ const express = require('express');
 const app = express();
 //подключаем модуль для работы с путями директорий
 const path = require('path');
-const mongoose = require('mongoose'); /*!!!*/
+const mongoose = require('mongoose');
 //подключение модуля авторизации passport
 const passport = require('passport');
 //подключение модуля handlebars
