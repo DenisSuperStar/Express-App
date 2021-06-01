@@ -1,19 +1,56 @@
 <div class="page__title-box">
     <span class="title">Рок</span>
 </div>
-<div class="page__player-box">
-    <audio controls>
-        <source 
-            src="https://ia800905.us.archive.org/19/items/FREE_background_music_dhalius/backsound.mp3"  
-            type="audio/mp3"
-        >
-    </audio>
-</div>
-<div class="page__player-box">
-    <audio controls>
-        <source 
-            src="https://ia800905.us.archive.org/19/items/FREE_background_music_dhalius/backsound.mp3"  
-            type="audio/mp3"
-        >
-    </audio>
-</div>
+<template>
+    <div class="jp-jplayer"></div>
+    <div class="jp-audio">
+        <div class="jp-type-single">
+            <div class="jp-title">
+                <ul class="jp-title__name-box">
+                    <!-- <li class="jp-title__name">TEDxPhoenix - Kelli Anderson - Disruptive Wonder for a Change</li> -->
+                    <li class="jp-title__name">Singer name - song name</li>
+                </ul>
+            </div>
+            <div class="jp-gui jp-interface">
+                <ul class="jp-controls">
+                    <li class="jp-controls__item">
+                        <span class="jp-play">
+                            <i class="fab fa-google-play"></i>
+                        </span>
+                    </li>
+                    <li class="jp-controls__item">
+                        <span class="jp-pause">
+                            <i class="fas fa-pause"></i>
+                        </span>
+                    </li>
+                    <li class="jp-controls__item">
+                        <span class="jp-mute">
+                            <i class="fas fa-volume-off"></i>
+                        </span>
+                    </li>
+                    <li class="jp-controls__item">
+                        <span class="jp-unmute">
+                            <i class="fas fa-volume-mute"></i>
+                        </span>
+                    </li>
+                </ul>
+
+                <div class="jp-progress">
+                    <div class="jp-seek-bar">
+                        <div class="jp-play-bar">
+                            <div class="jp-play-bar__bullet is-progress"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="jp-time-holder">
+                    <div class="jp-current-time"></div>
+                </div>
+
+                <div class="jp-volume-bar">
+                    <div class="jp-volume-bar-value"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
