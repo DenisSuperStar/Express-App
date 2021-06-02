@@ -6,11 +6,11 @@ const {Strategy} = passportLocal;
 const User = require('../models/user.js');
 
 //импорт функции, авторизации пользователя по email и пароль
-module.exports.checkDataUser = async (authenticate) => {
+module.exports.checkDataUser = (authenticate) => {
     authenticate.use(new Strategy({
         usernameField: 'authEmail',
         passwordField: 'authPassword'
-    }, (username, password, done) => {
+    }, async (username, password, done) => {
         await User.findOne({userEmail: username}, (err, user) => {
             if (err) return done(err);
 
