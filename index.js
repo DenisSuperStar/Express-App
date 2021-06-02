@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 //подключаем модуль для работы с путями директорий
 const path = require('path');
+//подключение модуля для работы с бд mongo
 const mongoose = require('mongoose');
 //подключение модуля авторизации passport
 const passport = require('passport');
@@ -15,8 +16,32 @@ const exphbs = require('express-handlebars');
 const compileSass = require('express-compile-sass');
 //подключение модуля работы с файлами
 const multer = require('multer');
-//вызываем функцию multer и указываем директорию хранения загружаемых файлов
-const upload = multer({dest: 'uploads/'});
+//Настройка параметра storageConfig
+const storageConfig = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads');
+    },
+    filename: (req, file, cb) => {
+        const {originalname} = file; // 1)
+
+        cb(null, originalname); //2), 1) + 2) = cb(null, file.originalname)
+    }
+});
+
+//Настройка фильтра для загружаемых файлов
+const filterTypeFile = (req, file, cb) => {
+    const {mimetype} = file;
+
+    if (mimetype.indexOf('mpeg') === -1) {
+        cb(null, false);
+    } else {
+        cb(null, true);
+    }
+}
+
+//подключение и инициализация модуля multer
+const upload = multer({storage: storageConfig, fileFilter: filterTypeFile});
+
 //подключаем модуль body parser
 const bodyParser = require('body-parser');
 //У объекта body parser вызываем функцию urlencoded
@@ -33,6 +58,7 @@ const autenticateController = require('./controllers/autenticateController');
 const uploadFileController = require('./controllers/uploadFileController.js');
 const genreController = require('./controllers/genreController.js');
 
+//Устанавливаем соединение с бд
 mongoose.connect(`mongodb://${hostType}:${hostDb}/${dbName}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -44,8 +70,9 @@ mongoose.connect(`mongodb://${hostType}:${hostDb}/${dbName}`, {
         process.exit(-1);
     }
 
+    //Если не возникло ошибки, то выполняем прослушивание порта и запуск сервера
     app.port(port, () => {
-        console.log('Сервер был запущен...');
+        console.log(`Сервер запущен на порту ${port}`);
     });
 });
 
@@ -83,12 +110,14 @@ app.use(compileSass({
 //регистрируем статические файлы стилей
 app.use(express.static(path.resolve() + '/public'));
 
+app.use(upload.single('fileData'));
+
 //описание маршрутов для путей, начинающихся с /
 app.get('/', routeController.index);
 app.get('/new', routeController.new);
 app.get('/artist', routeController.artist);
 app.get('/genres', routeController.genre);
-app.post('/upload', upload.single('fileData'), uploadFileController.uploadFile);
+app.post('/upload', uploadFileController.uploadFile);
 
 app.get('/create', urlEncodedParser, routeController.create);
 app.post('/create', urlEncodedParser, addNewUserController.addUser);
@@ -113,9 +142,4 @@ app.use((req, res, next) => {
     res.send('Страница не найдена.');
 
     next(createError(404, 'Запрашиваемая страница не найдена.'));
-});
-
-//прослушивание порта и запуск сервера
-app.listen(port, () => {
-    console.log(`Сервер прослушивает http://${host}:${port}`);
 });
