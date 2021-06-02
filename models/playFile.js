@@ -10,11 +10,11 @@ const fileSchema = new Schema({
        required: true,
        unique: true
    },
-   singerName: {
+   originalName: {
        type: String,
        required: true
    },
-   songName: {
+   destination: {
        type: String,
        required: true
    },
